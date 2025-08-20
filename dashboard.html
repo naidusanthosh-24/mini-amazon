@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard - Mini Amazon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>🏡 Hello, User!</h2>
+    <p>Welcome to your Mini Amazon dashboard!</p>
+     <p>
+  <button onclick="startVoice()" style="background-color: #4CAF50; color: white; padding: 10px;">
+    🎤 Speak to Search
+  </button>
+</p>
+<div id="voiceResult" style="color: #d32f2f; font-weight: bold;"></div>
+
+    <div class="product">
+      <h3>🎮 Wireless Game Controller</h3>
+      <p>Price: $25</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product">
+      <h3>📘 Science Book for Kids</h3>
+      <p>Price: $12</p>
+      <button>Add to Cart</button>
+    </div>
+
+    <br>
+    <button onclick="location.href='index.html'" style="background-color: #d32f2f;">
+      Logout
+    </button>
+  </div>
+<script>
+function startVoice() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.start();
+
+  document.getElementById("voiceResult").innerHTML = "🎤 Listening...";
+
+  recognition.onresult = function(event) {
+    const voiceInput = event.results[0][0].transcript;
+    document.getElementById("voiceResult").innerHTML = "You said: <b>" + voiceInput + "</b>";
+    
+    // Simple search logic
+    if (voiceInput.toLowerCase().includes("book")) {
+      alert("Searching for books...");
+    } 
+    else if (voiceInput.toLowerCase().includes("game") || voiceInput.toLowerCase().includes("controller")) {
+      alert("Searching for games...");
+    }
+    else if (voiceInput.toLowerCase().includes("hello")) {
+      alert("Hi there! How can I help you?");
+    }
+    else {
+      alert("Sorry, I didn't understand. Try saying 'find me books' or 'show games'");
+    }
+  };
+
+  recognition.onerror = function() {
+    document.getElementById("voiceResult").innerHTML = "❌ Error: Could not recognize speech.";
+  };
+}
+</script>
+</body>
+</html>
